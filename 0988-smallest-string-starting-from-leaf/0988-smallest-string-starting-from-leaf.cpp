@@ -10,18 +10,23 @@
  * };
  */
 class Solution {
-    set<string>st;
-    void preorder(TreeNode*root,string s){
+    string preorder(TreeNode*root,string s){
         if(root==NULL){
-            return ;
+            return "~";
         }
         s= char('a'+root->val)+s;
         if(root->left==NULL && root->right==NULL){
-            st.insert(s);
-            return;
+            return s;
         }
-        preorder(root->left,s);
-        preorder(root->right,s);
+        string a=preorder(root->left,s);
+        string b=preorder(root->right,s);
+        if(a!="~" && b!="~"){
+            return a<b?a:b;
+        }
+        else if(a=="~" && b!="~"){
+            return b;
+        }
+        return a;
     }
 public:
     string smallestFromLeaf(TreeNode* root) {
@@ -30,12 +35,12 @@ public:
             s+=char('a'+root->val);
             return s;
         }
-        preorder(root,"");
-        for(auto it=st.begin();it!=st.end();it++){
-            if((*it).length()>1){
-                return *it;
-            }
-        }
-        return "";
+        return preorder(root,"");
+        // for(auto it=st.begin();it!=st.end();it++){
+        //     if((*it).length()>1){
+        //         return *it;
+        //     }
+        // }
+        // return "";
     }
 };

@@ -1,24 +1,15 @@
 class Solution {
 public:
     long long maximumImportance(int n, vector<vector<int>>& roads) {
-        vector<int>in_deg(n,0);
-        for(auto it:roads){
+        vector<long long>in_deg(n,0);
+        for(auto& it:roads){
             in_deg[it[0]]++;
             in_deg[it[1]]++;
         }
-        priority_queue<pair<int,int>>pq;
-        int i=0;
-        for(auto it:in_deg){
-            pq.push({it,i++});
-        }
-        int k=n;
-        while(!pq.empty()){
-            in_deg[pq.top().second]=n--;
-            pq.pop();
-        }
+        sort(in_deg.begin(),in_deg.end());
         long long count=0;
-        for(auto it:roads){
-            count+=(in_deg[it[0]]+in_deg[it[1]]);
+        for(int i=n-1;i>=0;i--){
+            count+= (in_deg[i]*(n--));
         }
         return count;
     }
